@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text x="6" y="22" font-size="24">💕</text></svg>'), auto;
+        }
+
+        /* Animated background with floating particles */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0f2e 0%, #0f0f0f 50%, #1a1a2e 100%);
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            border-radius: 30px;
+            padding: 60px 50px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-section {
+            opacity: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-emoji {
+            font-size: 120px;
+            margin-bottom: 30px;
+            display: inline-block;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.4));
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            animation: slideDown 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .story-section {
+            display: none;
+            opacity: 0;
+        }
+
+        .story-section.active {
+            display: block;
+            animation: fadeIn 1s ease-out;
+            opacity: 1;
+        }
+
+        .story-text {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        .story-highlight {
+            color: #ffb6c1;
+            font-weight: 600;
+        }
+
+        .journey-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 182, 193, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .dot.active {
+            background: #ffb6c1;
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+        }
+
+        .dot:hover {
+            background: rgba(255, 182, 193, 0.6);
+            transform: scale(1.2);
+        }
+
+        .propose-section {
+            display: none;
+            opacity: 0;
+        }
+
+        .propose-section.active {
+            display: block;
+            animation: fadeIn 1.2s ease-out;
+            opacity: 1;
+        }
+
+        .final-question {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            line-height: 1.3;
+            animation: slideDown 1s ease-out;
+        }
+
+        .question-word {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse-text 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 1.2s ease-out;
+        }
+
+        .btn {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+            color: #0f0f0f;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.5);
+        }
+
+        .btn-yes:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-no {
+            background: transparent;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            color: #ffb6c1;
+            position: relative;
+        }
+
+        .btn-no:hover {
+            border-color: #ffb6c1;
+            background: rgba(255, 182, 193, 0.05);
+            transform: translateX(var(--tx, 0px)) translateY(var(--ty, 0px));
+        }
+
+        .success-section {
+            display: none;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .success-section.active {
+            display: block;
+            animation: fadeIn 1.2s ease-out;
+            opacity: 1;
+        }
+
+        .success-emoji {
+            font-size: 150px;
+            margin-bottom: 30px;
+            display: inline-block;
+            animation: bounce 1s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 182, 193, 0.6));
+        }
+
+        .success-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            z-index: 1000;
+            animation: confettiFall 3s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 25px;
+            pointer-events: none;
+            animation: float-up 3s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--tx, 0px)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .navigation {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            background: transparent;
+            color: #ffb6c1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            border-color: #ffb6c1;
+            background: rgba(255, 182, 193, 0.1);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 40px 25px;
+                border-radius: 25px;
+            }
+
+            .title {
+                font-size: 2.5em;
+            }
+
+            .final-question {
+                font-size: 1.8em;
+            }
+
+            .story-text {
+                font-size: 1.1em;
+            }
+
+            .hero-emoji {
+                font-size: 100px;
+            }
+
+            .success-emoji {
+                font-size: 120px;
+            }
+
+            .success-title {
+                font-size: 2.2em;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 1em;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="content">
+                <!-- Hero Section -->
+                <div class="hero-section" id="heroSection">
+                    <div class="hero-emoji">💕</div>
+                    <h1 class="title">Our Love Story</h1>
+                    <p class="subtitle">A Journey of Two Hearts</p>
+                    <button class="btn btn-yes" onclick="startJourney()" style="margin-top: 40px;">
+                        Begin Our Story →
+                    </button>
+                </div>
+
+                <!-- Story Sections -->
+                <div id="storyContainer"></div>
+
+                <!-- Propose Section -->
+                <div class="propose-section" id="proposeSection">
+                    <h2 class="final-question">
+                        Will You Spend Forever With Me?
+                        <span class="question-word">💍</span>
+                    </h2>
+                    <div class="button-group">
+                        <button class="btn btn-yes" onclick="handleYes()">Of Course! 💕</button>
+                        <button class="btn btn-no" id="noBtn" onclick="handleNo()">Let Me Think... 🤔</button>
+                    </div>
+                </div>
+
+                <!-- Success Section -->
+                <div class="success-section" id="successSection">
+                    <div class="success-emoji">🎉</div>
+                    <h2 class="success-title">You Make Me The Happiest! 💍</h2>
+                    <p class="success-message">
+                        From this moment on, you're not just my love,<br>
+                        You're my forever, my always, my home. 💕
+                    </p>
+                    <button class="btn btn-yes" onclick="location.reload()" style="margin-top: 30px;">
+                        Relive Our Story ↻
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Story content
+        const storyChapters = [
+            {
+                emoji: "👀",
+                title: "The Moment I Saw You",
+                text: "I still remember that exact moment. Your smile lit up the room, and my heart knew immediately—this person is different. This person is <span class='story-highlight'>special</span>."
+            },
+            {
+                emoji: "🌟",
+                title: "You Made Me Believe",
+                text: "You showed me what it means to love unconditionally. Every laugh, every conversation, every quiet moment became my favorite memory. You didn't just change my life, you <span class='story-highlight'>became</span> my life."
+            },
+            {
+                emoji: "🌹",
+                title: "My Greatest Adventure",
+                text: "With you, I discovered that the best adventures aren't the ones we plan. They're the unexpected moments—your hand in mine, our inside jokes, the way you make ordinary days feel <span class='story-highlight'>extraordinary</span>."
+            },
+            {
+                emoji: "💫",
+                title: "You Are My Promise",
+                text: "I promise to love you fiercely, to stand beside you in every season, to choose you every single day. You're not just my person—you're my <span class='story-highlight'>forever</span>."
+            }
+        ];
+
+        let currentChapter = -1;
+
+        // Create particles
+        function createParticles() {
+            const bg = document.getElementById('background');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+                bg.appendChild(particle);
+            }
+        }
+
+        function startJourney() {
+            document.getElementById('heroSection').style.display = 'none';
+            showNextChapter();
+        }
+
+        function showNextChapter() {
+            currentChapter++;
+            
+            if (currentChapter < storyChapters.length) {
+                const chapter = storyChapters[currentChapter];
+                const container = document.getElementById('storyContainer');
+                
+                let html = `
+                    <div class="story-section active" id="chapter${currentChapter}">
+                        <div style="font-size: 80px; margin-bottom: 30px; animation: heartBeat 1.2s ease-in-out infinite;">${chapter.emoji}</div>
+                        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2em; margin-bottom: 25px; color: #ffb6c1;">${chapter.title}</h2>
+                        <p class="story-text">${chapter.text}</p>
+                        <div class="navigation" style="margin-top: 40px;">
+                            <button class="nav-btn" onclick="showPreviousChapter()" ${currentChapter === 0 ? 'disabled' : ''}>←</button>
+                            <div class="journey-dots">
+                `;
+                
+                for (let i = 0; i < storyChapters.length; i++) {
+                    html += `<div class="dot ${i === currentChapter ? 'active' : ''}" onclick="jumpToChapter(${i})"></div>`;
+                }
+                
+                html += `
+                            </div>
+                            <button class="nav-btn" onclick="showNextChapter()" ${currentChapter === storyChapters.length - 1 ? 'disabled' : ''}>→</button>
+                        </div>
+                `;
+                
+                if (currentChapter === storyChapters.length - 1) {
+                    html += `
+                        <button class="btn btn-yes" onclick="revealProposal()" style="margin-top: 40px; width: 100%;">
+                            What's Next? 💫
+                        </button>
+                    `;
+                }
+                
+                html += `</div>`;
+                container.innerHTML = html;
+            }
+        }
+
+        function showPreviousChapter() {
+            if (currentChapter > 0) {
+                currentChapter--;
+                showNextChapter();
+            }
+        }
+
+        function jumpToChapter(index) {
+            currentChapter = index - 1;
+            showNextChapter();
+        }
+
+        function revealProposal() {
+            document.getElementById('storyContainer').innerHTML = '';
+            document.getElementById('proposeSection').classList.add('active');
+            createConfetti();
+        }
+
+        function handleYes() {
+            document.getElementById('proposeSection').style.display = 'none';
+            document.getElementById('successSection').classList.add('active');
+            createCelebration();
+        }
+
+        function handleNo() {
+            const noBtn = document.getElementById('noBtn');
+            const randomX = (Math.random() - 0.5) * 300;
+            const randomY = (Math.random() - 0.5) * 200;
+            
+            noBtn.style.setProperty('--tx', randomX + 'px');
+            noBtn.style.setProperty('--ty', randomY + 'px');
+            
+            // Show encouraging message
+            const messages = [
+                "I know you want to say yes! 😊",
+                "Your heart is saying yes! 💕",
+                "Take your time, I'll wait... 🥺",
+                "Come on, you know you love me! 😄",
+                "Forever starts today! 🌟"
+            ];
+            
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            showEncouragingMsg(randomMsg);
+        }
+
+        function showEncouragingMsg(msg) {
+            const msgEl = document.createElement('div');
+            msgEl.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.5em;
+                font-weight: 600;
+                color: #ffb6c1;
+                z-index: 2000;
+                animation: fadeInUp 0.5s ease-out, fadeOutUp 0.5s ease-in 1.5s forwards;
+                pointer-events: none;
+            `;
+            msgEl.textContent = msg;
+            document.body.appendChild(msgEl);
+            setTimeout(() => msgEl.remove(), 2000);
+        }
+
+        function createConfetti() {
+            const emojis = ['💕', '💖', '💗', '✨', '🌹', '💍', '🎉', '🎊'];
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        function createCelebration() {
+            createConfetti();
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = '💕';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '100%';
+                    heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                    heart.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        // Add CSS for fadeOutUp
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOutUp {
+                to {
+                    opacity: 0;
+                    transform: translate(-50%, -150%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        createParticles();
+    </script>
+</body>
+</html>
