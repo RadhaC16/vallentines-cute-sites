@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Rose Day Message ❣️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffecd2 100%);
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Falling petals */
+        .petal {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(ellipse at center, #ff69b4 0%, #ff1493 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.7;
+            animation: falling linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes falling {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+
+        /* Initial screen */
+        .initial-screen {
+            transition: all 0.8s ease;
+        }
+
+        .initial-screen.hide {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #c2185b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 1s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #880e4f;
+            margin-bottom: 40px;
+            font-style: italic;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Rose container */
+        .rose-container {
+            position: relative;
+            margin: 40px 0;
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .rose {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 10px 20px rgba(233, 30, 99, 0.3));
+        }
+
+        .rose:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .rose-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.4), transparent);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .touch-text {
+            font-size: 1.3em;
+            color: #e91e63;
+            margin-top: 20px;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Question screen */
+        .question-screen {
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .question-screen.show {
+            display: block;
+            animation: popIn 0.6s ease forwards;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            70% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+
+        .question-card h2 {
+            color: #c2185b;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+            font-weight: bold;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+        }
+
+        .option-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Love message screen */
+        .love-screen {
+            display: none;
+            opacity: 0;
+        }
+
+        .love-screen.show {
+            display: block;
+            animation: heartReveal 1.2s ease forwards;
+        }
+
+        @keyframes heartReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .love-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 245, 0.95));
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px rgba(233, 30, 99, 0.3);
+        }
+
+        .big-heart {
+            font-size: 5em;
+            animation: heartbeat 1.5s ease infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.3);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .love-message {
+            font-size: 3em;
+            color: #e91e63;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .love-subtitle {
+            font-size: 1.3em;
+            color: #c2185b;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        /* Shayari section */
+        .shayari-box {
+            background: linear-gradient(135deg, #ffeef8, #ffe0f0);
+            border-left: 5px solid #e91e63;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.2);
+        }
+
+        .shayari-title {
+            color: #880e4f;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .shayari-text {
+            color: #c2185b;
+            font-size: 1.15em;
+            line-height: 1.9;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-size: 1.4em;
+            color: #e91e63;
+            font-style: italic;
+        }
+
+        /* Particles */
+        .heart-particle {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 3s ease forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .rose {
+                width: 150px;
+                height: 150px;
+            }
+
+            .question-card {
+                padding: 30px 20px;
+            }
+
+            .question-card h2 {
+                font-size: 1.4em;
+            }
+
+            .option-btn {
+                padding: 15px 25px;
+                font-size: 1em;
+            }
+
+            .love-message {
+                font-size: 2.2em;
+            }
+
+            .love-subtitle {
+                font-size: 1.1em;
+            }
+
+            .shayari-text {
+                font-size: 1em;
+            }
+
+            .big-heart {
+                font-size: 4em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.6em;
+            }
+
+            .love-message {
+                font-size: 1.8em;
+            }
+
+            .love-card {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Falling petals container -->
+    <div id="petalsContainer"></div>
+
+    <div class="container">
+        <!-- Initial Screen -->
+        <div class="initial-screen" id="initialScreen">
+            <h1 class="title">Happy Rose Day! 🌹</h1>
+            <p class="subtitle">A special message awaits you...</p>
+            
+            <div class="rose-container" id="roseBtn">
+                <div class="rose-glow"></div>
+                <svg class="rose" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Stem -->
+                    <path d="M100 200 Q95 150 100 100" stroke="#2d5016" stroke-width="5" fill="none"/>
+                    
+                    <!-- Leaves -->
+                    <ellipse cx="85" cy="140" rx="18" ry="10" fill="#4caf50" transform="rotate(-30 85 140)"/>
+                    <ellipse cx="115" cy="160" rx="18" ry="10" fill="#4caf50" transform="rotate(30 115 160)"/>
+                    
+                    <!-- Rose petals (outer layer) -->
+                    <circle cx="100" cy="80" r="40" fill="#e91e63" opacity="0.7"/>
+                    <ellipse cx="70" cy="75" rx="28" ry="35" fill="#f06292" transform="rotate(-45 70 75)"/>
+                    <ellipse cx="130" cy="75" rx="28" ry="35" fill="#f06292" transform="rotate(45 130 75)"/>
+                    <ellipse cx="100" cy="50" rx="28" ry="35" fill="#f48fb1"/>
+                    <ellipse cx="100" cy="100" rx="28" ry="35" fill="#c2185b"/>
+                    
+                    <!-- Middle petals -->
+                    <circle cx="100" cy="75" r="25" fill="#ad1457"/>
+                    <ellipse cx="85" cy="70" rx="15" ry="20" fill="#c2185b" transform="rotate(-30 85 70)"/>
+                    <ellipse cx="115" cy="70" rx="15" ry="20" fill="#c2185b" transform="rotate(30 115 70)"/>
+                    
+                    <!-- Center -->
+                    <circle cx="100" cy="75" r="12" fill="#880e4f"/>
+                    
+                    <!-- Sparkles -->
+                    <circle cx="65" cy="55" r="3" fill="#fff" opacity="0.9">
+                        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="135" cy="90" r="2.5" fill="#fff" opacity="0.9">
+                        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="100" cy="45" r="2" fill="#fff" opacity="0.9">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+            </div>
+            
+            <p class="touch-text">👆 Touch the Rose 👆</p>
+        </div>
+
+        <!-- Question Screens -->
+        <div class="question-screen" id="question1">
+            <div class="question-card">
+                <h2>Do you know what makes this day special? 🌹</h2>
+                <div class="options">
+                    <button class="option-btn" onclick="nextQuestion(2)">It's Rose Day! 💕</button>
+                    <button class="option-btn" onclick="nextQuestion(2)">A day to celebrate love 💝</button>
+                    <button class="option-btn" onclick="nextQuestion(2)">A day to express feelings ❤️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-screen" id="question2">
+            <div class="question-card">
+                <h2>What does a rose symbolize? 🌹</h2>
+                <div class="options">
+                    <button class="option-btn" onclick="nextQuestion(3)">Love and Romance 💖</button>
+                    <button class="option-btn" onclick="nextQuestion(3)">Beauty and Passion 🔥</button>
+                    <button class="option-btn" onclick="nextQuestion(3)">All of the above ✨</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-screen" id="question3">
+            <div class="question-card">
+                <h2>Do you believe in forever? 💫</h2>
+                <div class="options">
+                    <button class="option-btn" onclick="nextQuestion(4)">Yes, with the right person 💑</button>
+                    <button class="option-btn" onclick="nextQuestion(4)">Forever is a promise ❤️</button>
+                    <button class="option-btn" onclick="nextQuestion(4)">I believe in us 💕</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-screen" id="question4">
+            <div class="question-card">
+                <h2>Are you ready for something special? ✨</h2>
+                <div class="options">
+                    <button class="option-btn" onclick="showLove()">Yes! Show me! 💝</button>
+                    <button class="option-btn" onclick="showLove()">I'm ready! 💖</button>
+                    <button class="option-btn" onclick="showLove()">Can't wait! 🎉</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Message Screen -->
+        <div class="love-screen" id="loveScreen">
+            <div class="love-card">
+                <div class="big-heart">❤️</div>
+                <div class="love-message">I LOVE YOU</div>
+                <div class="love-message">SO MUCH! 💕</div>
+                
+                <div class="love-subtitle">
+                    You are my everything, my world, my forever. 
+                    Every moment with you is a blessing, and I'm so grateful 
+                    to have you in my life. 🌹
+                </div>
+
+                <div class="shayari-box">
+                    <div class="shayari-title">🌹 Rose Day Special 🌹</div>
+                    <div class="shayari-text">
+                        "गुलाब की तरह खिलता है चेहरा तुम्हारा,<br>
+                        हर खुशी है तुम्हारे साथ में सारा,<br>
+                        रोज़ डे पे देता हूँ ये दिल का गुलाब,<br>
+                        तुम ही हो मेरी जिंदगी का सबसे हसीन ख्वाब। 💝"
+                    </div>
+                </div>
+
+                <div class="love-subtitle">
+                    Just like this rose, my love for you blooms brighter every day.
+                    You are my red rose, my precious one, my forever love! 🌹✨
+                </div>
+
+                <div class="signature">
+                    Forever Yours,<br>
+                    Your Loving Partner 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create falling petals
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            petal.style.animationDelay = Math.random() * 3 + 's';
+            petal.style.width = (Math.random() * 10 + 10) + 'px';
+            petal.style.height = (Math.random() * 10 + 10) + 'px';
+            document.getElementById('petalsContainer').appendChild(petal);
+
+            setTimeout(() => {
+                petal.remove();
+            }, 8000);
+        }
+
+        // Generate petals continuously
+        setInterval(createPetal, 400);
+        for (let i = 0; i < 12; i++) {
+            setTimeout(createPetal, i * 200);
+        }
+
+        // Touch rose to start
+        document.getElementById('roseBtn').addEventListener('click', function(e) {
+            createHeartBurst(e.clientX, e.clientY);
+            
+            setTimeout(() => {
+                document.getElementById('initialScreen').classList.add('hide');
+                setTimeout(() => {
+                    document.getElementById('question1').classList.add('show');
+                }, 400);
+            }, 500);
+        });
+
+        // Create heart burst effect
+        function createHeartBurst(x, y) {
+            const hearts = ['❤️', '💕', '💖', '💗', '💝', '💘'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-particle');
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = x + (Math.random() - 0.5) * 100 + 'px';
+                    heart.style.top = y + (Math.random() - 0.5) * 100 + 'px';
+                    heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        let currentQuestion = 1;
+
+        function nextQuestion(questionNum) {
+            // Create petals burst
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createPetal, i * 50);
+            }
+
+            // Hide current question
+            document.getElementById('question' + currentQuestion).classList.remove('show');
+            
+            // Show next question
+            setTimeout(() => {
+                document.getElementById('question' + questionNum).classList.add('show');
+                currentQuestion = questionNum;
+            }, 300);
+        }
+
+        function showLove() {
+            // Massive heart burst
+            createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
+            
+            // Create lots of petals
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createPetal, i * 100);
+            }
+
+            // Hide question screen
+            document.getElementById('question4').classList.remove('show');
+            
+            // Show love message
+            setTimeout(() => {
+                document.getElementById('loveScreen').classList.add('show');
+                
+                // Continue creating hearts
+                setInterval(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-particle');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 3000);
+                }, 500);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
